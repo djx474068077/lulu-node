@@ -4,7 +4,8 @@ const User = require('../models/user')
 router.prefix('/users')
 
 router.get('/', function (ctx, next) {
-  ctx.body = 'this is a users response!'
+  console.log('请求了users')
+  ctx.response.body = '应该是一个json'
 })
 
 router.get('/bar', function (ctx, next) {
