@@ -1,0 +1,29 @@
+{
+  "button":[
+    {
+      "name":"小游戏",
+      "sub_button":[
+        {
+          "type":"view",
+          "name":"蛙蛙PK",
+          "url":"http://wawa.dongff.xyz"
+        },
+        {
+          "type":"view",
+          "name":"其他游戏",
+          "url":""
+        }
+      ]
+    },
+    {
+      "name": "其他",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "待开发",
+          "url": ""
+        }
+      ]
+    }
+  ]
+}

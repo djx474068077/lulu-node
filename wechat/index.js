@@ -1,3 +1,4 @@
+// 检测订阅号收到的消息
 const wx = require('./wx')
 exports.postHandle = (ctx, next) => {
   let msg,

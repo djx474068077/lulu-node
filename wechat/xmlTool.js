@@ -1,3 +1,4 @@
+// xml转化工具（暂无用）
 const xml2js = require('xml2js')
 
 exports.xmlToJson = (str) => {

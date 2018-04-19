@@ -1,3 +1,4 @@
+// 获取微信连接
 var crypto = require('crypto');
 const router = require('koa-router')()
 
