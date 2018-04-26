@@ -8,16 +8,16 @@ router.prefix('/oauth') // 设置路由字段，在app中的weixin.routes
 /* 微信网页授权 */
 var AppID = config.appid;
 var AppSecret = config.appsecret;
-router.get('/wx_login', function(ctx, next){
-  console.log("oauth - login")
-  // 第一步：用户同意授权，获取code
-  var router = 'get_wx_access_token';
-  // 这是编码后的地址
-  var return_uri = 'http://wawaapi.dongff.xyz/oauth/'+router;
-  var scope = 'snsapi_userinfo';
-
-  ctx.response.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE#wechat_redirect');
-});
+// router.get('/wx_login', function(ctx, next){
+//   console.log("oauth - login")
+//   // 第一步：用户同意授权，获取code
+//   var router = 'get_wx_access_token';
+//   // 这是编码后的地址
+//   var return_uri = 'http://wawaapi.dongff.xyz/oauth/'+router;
+//   var scope = 'snsapi_userinfo';
+//
+//   ctx.response.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE#wechat_redirect');
+// });
 
 /* 获取access_token */
 router.get('/get_wx_access_token', function(ctx, next){
