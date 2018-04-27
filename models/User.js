@@ -12,20 +12,12 @@ var db = require('../db/db')
  * @type {mongoose}
  */
 var UserSchema = new Schema({
-    phoneNumber: {
-        unique: true,
-        type: String
-    },
-    areaCode: String,
-    verifyCode: String,
-    verified: {
-        type: Boolean,
-        default: false
-    },
     accessToken: String,
-    nickname: String,
-    gender: String,
-    breed: String,
+    nickName: String,
+    sex: String,
+    city: String,
+    province: String,
+    country: String,
     age: String,
     avatar: String,
     meta: {
@@ -58,8 +50,8 @@ UserSchema.pre('save', function(next) {
  * @type {[type]}
  */
 // 参数User 数据库中的集合名称, 不存在会创建.
-var User = db.model('User', UserSchema)
-
+var User = db.model('user', UserSchema)
+console.log('User实例')
 module.exports = User
 
 /**
