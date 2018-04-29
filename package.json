@@ -24,6 +24,7 @@
     "mongoose": "^5.0.11",
     "pug": "^2.0.0-rc.1",
     "request": "^2.85.0",
+    "utility": "^1.13.1",
     "wechat": "^2.1.0",
     "wechat-api": "^1.35.1",
     "xml2js": "^0.4.19"
