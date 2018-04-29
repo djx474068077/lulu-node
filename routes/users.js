@@ -1,14 +1,15 @@
 'use strict'
 const router = require('koa-router')()
 const User = require('../models/User')
+// const Promise = require('promise')
 const util = require('utility')
 
 router.prefix('/users')
 
 router.get('/', async (ctx, next) => {
-  console.log('请求了users')
+  console.log('请求了users');
   var params = {
-    nickName: 'dadao'
+    nickname: 'dadao'
   }
   await User.find(params, (err, doc) => {
     console.log(err)
@@ -37,53 +38,83 @@ router.get('/', async (ctx, next) => {
 
 // 注册  /users/register
 router.post('/register', async (ctx, next) => {
-  console.log(ctx.request.body)
-  let userName = ctx.request.body.userName
+  // console.log(ctx.request.body)
+  let username = ctx.request.body.username
   let password = util.md5(ctx.request.body.password)
-  let doc = await User.findOne({userName: userName}, (err, doc) => {
+  let hasUser = await User.findOne({username: username}, (err, doc) => {
+    // console.log(err);
     if (err) {
-      console.log(err);
+      // return ctx.response.body = {
+      //   status: '10100',
+      //   msg: '数据库连接失败'
+      // }
       return 10100
     };
     return doc
+    // if (doc) {
+    //   return ctx.response.body = {
+    //     status: '10010',
+    //     msg: '用户已被注册'
+    //   }
+    // }
   })
-  if (doc === 10100) {
+  if (hasUser === 10100) {
     ctx.response.body = {
-      status: '10100',
+      status: 10100,
       msg: '数据库连接失败'
     }
-  } else if (doc) {
+  } else if (hasUser) {
     ctx.response.body = {
-      status: '10010',
-      msg: '用户已被注册'
+      status: 10001,
+      msg: '用户已存在'
     }
   } else {
-    await User.create({userName, password}, (err, doc) => {
-      if (err) {
-        console.log(err);
-        return ctx.response.body = {
-          status: '10010',
-          msg: err.message
-        };
-      };
-      console.log('这是写入数据库的方法体内')
-      if (doc) {
-        return ctx.response.body = {
-          status: '10000',
-          msg: 'success'
+    await new Promise((resolve, reject) => {
+      User.create({username, password}, (err, doc) => {
+        if(err){
+          return reject(err)
         }
+        return resolve(doc)
+      })
+    }).then(res => {
+      ctx.response.body = {
+        status: 10000,
+        msg: "注册成功",
+        data: res
       }
-      return ctx.response.body = {
-        status: '10002',
-        msg: '用户注册失败'
+    }).catch(err => {
+      ctx.response.body = {
+        status: 10100,
+        msg: err.message
       }
     })
-    console.log('这是注册最底下')
   }
+  // console.log('find 最底下')
 })
 
-router.get('/login', function (ctx, next) {
-  ctx.body = 'login!!!!!'
+router.post('/login', async (ctx, next) => {
+  let username = ctx.request.body.username
+  let password = util.md5(ctx.request.body.password)
+  await User.findOne({username: username, password: password}, (err, doc) => {
+    console.log(err);
+    if (err) {
+      return ctx.body = {
+        status: 10100,
+        msg: '数据库连接失败'
+      }
+    };
+    if (!doc) {
+      return ctx.body = {
+        status: 10001,
+        msg: '用户不存在或密码输入错误'
+      }
+    }
+    return ctx.body = {
+      status: 10000,
+      msg: '登陆成功',
+      data: doc
+    }
+  })
 })
 
 module.exports = router

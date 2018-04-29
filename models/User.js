@@ -12,9 +12,9 @@ var db = require('../db/db')
  * @type {mongoose}
  */
 var UserSchema = new Schema({
-    userName: String,
+    username: String,
     password: String,
-    nickName: String,
+    nickname: String,
     sex: String,
     city: String,
     province: String,
