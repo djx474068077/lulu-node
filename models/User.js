@@ -12,15 +12,16 @@ var db = require('../db/db')
  * @type {mongoose}
  */
 var UserSchema = new Schema({
-    username: String,
-    password: String,
-    nickname: String,
-    sex: String,
-    city: String,
-    province: String,
-    country: String,
-    age: String,
-    avatar: String,
+    username: String,   // 用戶名（唯一）
+    password: String,   // 密码
+    nickname: {type: String, default: ''},   // 昵称
+    describe: {type: String, default: ''},       // 个人描述
+    sex: {type: String, default: ''},        // 性别
+    city: {type: String, default: ''},       // 城市
+    province: {type: String, default: ''},
+    country: {type: String, default: ''},
+    birthday: {type: Date, default: ''},
+    avatar: {type: String, default: ''},
     meta: {
         createAt: {
             type: Date,
