@@ -92,10 +92,38 @@ router.post('/register', async (ctx, next) => {
   // console.log('find 最底下')
 })
 
+// 登陆 /users/login
 router.post('/login', async (ctx, next) => {
   let username = ctx.request.body.username
   let password = util.md5(ctx.request.body.password)
   await User.findOne({username: username, password: password}, (err, doc) => {
+    console.log(err);
+    if (err) {
+      return ctx.body = {
+        status: 10100,
+        msg: '数据库连接失败'
+      }
+    };
+    if (!doc) {
+      return ctx.body = {
+        status: 10001,
+        msg: '用户不存在或密码输入错误'
+      }
+    }
+    return ctx.body = {
+      status: 10000,
+      msg: '登陆成功',
+      data: doc
+    }
+  })
+})
+
+// 登陆 /users/changeSelf
+router.post('/changeSelf', async (ctx, next) => {
+  let { username, nickname, avatar, sex, birthday, province, city, county, describe } = ctx.request.body
+  // let password = util.md5(ctx.request.body.password)
+  console.log(nickname)
+  await User.findOne({username: username}, (err, doc) => {
     console.log(err);
     if (err) {
       return ctx.body = {

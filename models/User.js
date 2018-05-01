@@ -17,9 +17,9 @@ var UserSchema = new Schema({
     nickname: {type: String, default: ''},   // 昵称
     describe: {type: String, default: ''},       // 个人描述
     sex: {type: String, default: ''},        // 性别
+    province: {type: String, default: ''},   // 省
     city: {type: String, default: ''},       // 城市
-    province: {type: String, default: ''},
-    country: {type: String, default: ''},
+    county: {type: String, default: ''},     // 县、区
     birthday: {type: Date, default: ''},
     avatar: {type: String, default: ''},
     meta: {
