@@ -6,36 +6,6 @@ const util = require('utility')
 
 router.prefix('/users')
 
-router.get('/', async (ctx, next) => {
-  console.log('请求了users');
-  var params = {
-    nickname: 'dadao'
-  }
-  await User.find(params, (err, doc) => {
-    console.log(err)
-    if (err) {
-      return ctx.response.body = {
-        status: '10002',
-        msg: err.message
-      }
-    }
-    if (!doc) {
-      return ctx.response.body = {
-        status: '10002',
-        msg: '用户未找到'
-      }
-    }
-    console.log(doc)
-    return ctx.response.body = {
-      status: '10000',
-      data: doc,
-      msg: 'success'
-    }
-  })
-  // ctx.response.json = doct
-  // ctx.response.body = '应该是一个json'
-})
-
 // 注册  /users/register
 router.post('/register', async (ctx, next) => {
   // console.log(ctx.request.body)
@@ -97,7 +67,7 @@ router.post('/login', async (ctx, next) => {
   let username = ctx.request.body.username
   let password = util.md5(ctx.request.body.password)
   await User.findOne({username: username, password: password}, (err, doc) => {
-    console.log(err);
+    // console.log(err);
     if (err) {
       return ctx.body = {
         status: 10100,
@@ -118,28 +88,62 @@ router.post('/login', async (ctx, next) => {
   })
 })
 
-// 登陆 /users/changeSelf
+// 修改个人信息 /users/changeSelf
 router.post('/changeSelf', async (ctx, next) => {
   let { username, nickname, avatar, sex, birthday, province, city, county, describe } = ctx.request.body
   // let password = util.md5(ctx.request.body.password)
-  console.log(nickname)
-  await User.findOne({username: username}, (err, doc) => {
-    console.log(err);
+  // console.log(nickname)
+  await User.update({username}, {$set: {nickname, avatar, sex, birthday, province,city, county, describe}}, (err, doc) => {
+    // console.log(err);
     if (err) {
       return ctx.body = {
         status: 10100,
         msg: '数据库连接失败'
       }
     };
+    // if (!doc) {
+    //   return ctx.body = {
+    //     status: 10001,
+    //     msg: '用户不存在或密码输入错误'
+    //   }
+    // }
+    // console.log(doc)
+    if (doc.ok === 1) {
+      return ctx.body = {
+        status: 10000,
+        msg: '修改成功'
+      }
+    } else {
+      return ctx.body = {
+        status: 10002,
+        msg: '未知错误'
+      }
+    }
+  })
+})
+
+// 获取个人信息 /users/self
+router.get('/self', async (ctx, next) => {
+  // console.log(ctx.query.username)
+  let username = ctx.query.username
+  await User.findOne({username}, (err, doc) => {
+    // console.log(err);
+    if (err) {
+      return ctx.body = {
+        status: 10100,
+        msg: '数据库连接失败'
+      }
+    };
+    // console.log(doc)
     if (!doc) {
       return ctx.body = {
         status: 10001,
-        msg: '用户不存在或密码输入错误'
+        msg: '用户不存在'
       }
     }
     return ctx.body = {
       status: 10000,
-      msg: '登陆成功',
+      msg: '获取信息成功',
       data: doc
     }
   })

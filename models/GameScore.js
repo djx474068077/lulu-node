@@ -11,7 +11,7 @@ var db = require('../db/db')
  * 除了定义结构外，还定义文档的实例方法，静态模型方法，复合索引，中间件等
  * @type {mongoose}
  */
-var GameSchema = new Schema({
+var GameScoreSchema = new Schema({
   id: {type: Number, index: { unique: true, dropDups: true }},  // id
   name: {type: String, default: ''},                            // 游戏名称
   min_img: {type: String, default: ''},                         // 缩略图
@@ -30,7 +30,7 @@ var GameSchema = new Schema({
 })
 
 // Defines a pre hook for the document.
-GameSchema.pre('save', function(next) {
+GameScoreSchema.pre('save', function(next) {
   if (this.isNew) {
     this.meta.createAt = this.meta.updateAt = Date.now()
   }
@@ -47,6 +47,6 @@ GameSchema.pre('save', function(next) {
  * @type {[type]}
  */
 // 参数User 数据库中的集合名称, 不存在会创建.
-var Game = db.model('Game', GameSchema)
+var GameScore = db.model('Gamescore', GameScoreSchema)
 
-module.exports = Game
+module.exports = GameScore

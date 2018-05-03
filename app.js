@@ -11,6 +11,7 @@ const cors = require('koa2-cors')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const game = require('./routes/game')
 const weixin = require('./wechat/wechat')
 const oauth = require('./wechat/oauth')
 const config = require('./config/config')
@@ -54,6 +55,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(game.routes(), game.allowedMethods())
 app.use(weixin.routes(), weixin.allowedMethods())
 app.use(oauth.routes(), oauth.allowedMethods())
 

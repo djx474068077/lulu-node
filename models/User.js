@@ -22,6 +22,15 @@ var UserSchema = new Schema({
     county: {type: String, default: ''},     // 县、区
     birthday: {type: Date, default: ''},
     avatar: {type: String, default: ''},
+    ability: {
+        speed: {type: Number, default: 10}, // 速度
+        accuracy: {type: Number, default: 10}, // 准确率
+        computed: {type: Number, default: 10}, // 计算力
+        memory: {type: Number, default: 10}, // 记忆力
+        observe: {type: Number, default: 10}, // 观察力
+        judge: {type: Number, default: 10}, // 判断力
+    },
+    is_match: {type: Boolean, default: false},
     meta: {
         createAt: {
             type: Date,
