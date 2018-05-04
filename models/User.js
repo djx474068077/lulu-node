@@ -31,6 +31,7 @@ var UserSchema = new Schema({
         judge: {type: Number, default: 10}, // 判断力
     },
     is_match: {type: Boolean, default: false},
+    is_game: {type: Boolean, default: false},
     meta: {
         createAt: {
             type: Date,

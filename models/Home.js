@@ -13,6 +13,7 @@ var db = require('../db/db')
  */
 var HomeSchema = new Schema({
   id: {type: Number, index: { unique: true, dropDups: true }},  // id
+  is_game: {type: Boolean, default: true}, // 是否在游戏中，true表示正在游戏中，false表示已经结束
 
   username_f: {type: String, default: ''},
   avatar_f: {type: String, default: ''},

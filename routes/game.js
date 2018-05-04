@@ -40,25 +40,28 @@ router.get('/list', async (ctx, next) => {
   await getGameList().then(res => {
     gameList = res
   })
+  let scoreList = []
   for (var game of gameList) {
     await getGameScore(game.id, username).then(res => {
       if (res === '0') {
-        game.max_score = 0
+        // game.max_score = 0
+        scoreList.push({})
       } else {
         console.log(res)
       // !!!!!  这里 能获取到res，但是获取不到res.max_score
       // !!!!!  好像也不能设置for循环里面的game对象的某一个key的值
-        game.max_score = res
-        console.log(game.max_score)
+      //   game.max_score = res
+      //   console.log(game)
+        scoreList.push(res)
       }
     })
   }
-  console.log(gameList)
+  console.log(scoreList)
   if (gameList) {
     ctx.body = {
       status: 10000,
       msg: '获取成功',
-      data: gameList
+      data: {gameList: gameList, scoreList: scoreList}
     }
   } else {
     ctx.body = {
