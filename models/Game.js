@@ -12,7 +12,7 @@ var db = require('../db/db')
  * @type {mongoose}
  */
 var GameSchema = new Schema({
-  id: {type: Number, index: { unique: true, dropDups: true }},  // id
+  // id: {type: Number, index: { unique: true, dropDups: true }},  // id
   name: {type: String, default: ''},                            // 游戏名称
   min_img: {type: String, default: ''},                         // 缩略图
   intro_img: {type: String, default: ''},                       // 介绍图（介绍玩法时的图）

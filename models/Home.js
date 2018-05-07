@@ -12,39 +12,45 @@ var db = require('../db/db')
  * @type {mongoose}
  */
 var HomeSchema = new Schema({
-  id: {type: Number, index: { unique: true, dropDups: true }},  // id
+  // id: {type: Number, index: { unique: true, dropDups: true }},  // id
   is_game: {type: Boolean, default: true}, // 是否在游戏中，true表示正在游戏中，false表示已经结束
+  is_practice: {type: Boolean, default: false}, // 是否是训练局
 
-  username_f: {type: String, default: ''},
-  avatar_f: {type: String, default: ''},
-  sex_f: {type: String, default: ''},
-  birthday_f: {type: String, default: ''},
-  username_s: {type: String, default: ''},
-  avatar_s: {type: String, default: ''},
-  sex_s: {type: String, default: ''},
-  birthday_s: {type: String, default: ''},
-
-  game_id: {type: Number},
+  game_id: {type: String, default: ''},
   game_name: {type: String, default: ''},
 
-  log_f: [  // 比赛记录
-    {
-      time: {type: String, default: ''},  // 时间段
-      is_right: {type: String, default: ''}, // 是否正确
-      score_add: {type: String, default: ''} // 加的分数（不正确为0// ）
-    }
-  ],
-  log_s: [
-    {
-      time: {type: String, default: ''},
-      is_right: {type: String, default: ''},
-      score_add: {type: String, default: ''}
-    }
-  ],
-
   username_win: {type: String, default: ''},  // 胜利用户
-  score_f: {type: String, default: ''},       // 总分数
-  score_s: {type: String, default: ''},
+
+  user_f: {
+    username: {type: String, default: ''},
+    nickname: {type: String, default: ''},
+    avatar: {type: String, default: ''},
+    sex: {type: String, default: ''},
+    birthday: {type: String, default: ''},
+    log: [  // 比赛记录
+      {
+        time: {type: Number, default: 0},  // 时间段
+        is_right: {type: Boolean, default: false}, // 是否正确
+        score_add: {type: Number, default: 0} // 加的分数（不正确为0// ）
+      }
+    ],
+    score: {type: String, default: ''}       // 总分数
+  },
+  user_s: {
+    username: {type: String, default: ''},
+    nickname: {type: String, default: ''},
+    avatar: {type: String, default: ''},
+    sex: {type: String, default: ''},
+    birthday: {type: String, default: ''},
+    log: [  // 比赛记录
+      {
+        time: {type: Number, default: 0},  // 时间段
+        is_right: {type: Boolean, default: false}, // 是否正确
+        score_add: {type: Number, default: 0} // 加的分数（不正确为0// ）
+      }
+    ],
+    score: {type: String, default: ''}       // 总分数
+  },
 
   meta: {
     createAt: {

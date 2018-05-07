@@ -30,8 +30,8 @@ var UserSchema = new Schema({
         observe: {type: Number, default: 10}, // 观察力
         judge: {type: Number, default: 10}, // 判断力
     },
-    is_match: {type: Boolean, default: false},
-    is_game: {type: Boolean, default: false},
+    is_match: {type: Boolean, default: false}, // 是否在匹配中
+    is_game: {type: Boolean, default: false}, // 是否在游戏中
     meta: {
         createAt: {
             type: Date,

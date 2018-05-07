@@ -12,11 +12,11 @@ var db = require('../db/db')
  * @type {mongoose}
  */
 var GameScoreSchema = new Schema({
-  id: {type: Number, index: { unique: true, dropDups: true }},  // id
-  name: {type: String, default: ''},                            // 游戏名称
-  min_img: {type: String, default: ''},                         // 缩略图
-  intro_img: {type: String, default: ''},                       // 介绍图（介绍玩法时的图）
-  role: {type: String, default: ''},                            // 规则介绍
+  // id: {type: Number, index: { unique: true, dropDups: true }},  // id
+  game_id: {type: String, default: ''},
+  username: {type: String, default: ''},
+  max_score: {type: Number, default: 0},
+
   meta: {
     createAt: {
       type: Date,
