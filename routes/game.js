@@ -11,7 +11,34 @@ router.prefix('/game')
 
 // 提交完成后，返回的本次战斗数据
 router.get('/gameData', async (ctx, next) => {
-
+  let home_id = ctx.query.home_id
+  let home = ''
+  let findHomeData = function () {
+    return new Promise((resolve, reject) => {
+      Home.findOne({_id: home_id}, (err, doc) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(doc)
+      })
+    })
+  }
+  await findHomeData().then(res => {
+    console.log(res)
+    home = res
+  })
+  if (home) {
+    ctx.body = {
+      status: 10000,
+      msg: '获取结算信息成功',
+      data: home
+    }
+  } else {
+    ctx.body = {
+      status: 10001,
+      msg: '获取结算信息失败'
+    }
+  }
 })
 
 // 提交本次游戏记录,并刷新最大分数
