@@ -14,6 +14,7 @@ var db = require('../db/db')
 var HomeSchema = new Schema({
   // id: {type: Number, index: { unique: true, dropDups: true }},  // id
   is_game: {type: Boolean, default: true}, // 是否在游戏中，true表示正在游戏中，false表示已经结束
+  is_match: {type: Boolean, default: false}, // 是否在匹配中，true表示正在匹配中，false表示不在匹配，游戏开始了
   is_practice: {type: Boolean, default: false}, // 是否是训练局
 
   game_id: {type: String, default: ''},
