@@ -9,6 +9,48 @@ const util = require('utility')
 
 router.prefix('/game')
 
+// 对战记录
+router.get('/selfLogs', async (ctx, next) => {
+  let username = ctx.query.username
+  let mateLogs = ''
+  let pracLogs = ''
+  let findMateLogs = function () {
+    return new Promise((resolve, reject) => {
+      Home.find({$or: [{is_practice: false, is_game: false, 'user_f.username': username}, {is_practice: false, is_game: false, 'user_s.username': username}]}, (err, doc) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(doc)
+      })
+    })
+  }
+  let findPracLogs = function () {
+    return new Promise((resolve, reject) => {
+      Home.find({$or: [{is_practice: true, is_game: false, 'user_f.username': username}, {is_practice: true, is_game: false, 'user_s.username': username}]}, (err, doc) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(doc)
+      })
+    })
+  }
+  await findMateLogs().then(res => {
+    console.log('mate')
+    console.log(res)
+    mateLogs = res
+  })
+  await findPracLogs().then(res => {
+    console.log('prac')
+    console.log(res)
+    pracLogs = res
+  })
+  ctx.body = {
+    status: 10000,
+    msg: '获取数据成功',
+    data: {mateLogs: mateLogs, pracLogs: pracLogs}
+  }
+})
+
 // 提交本次对战游戏记录,并刷新最大分数
 router.post('/mate/upSelfLogs', async (ctx, next) => {
   let { game_id, home, username, log, score } = ctx.request.body
@@ -53,7 +95,7 @@ router.post('/mate/upSelfLogs', async (ctx, next) => {
     }
   }
   let upHomeWin = function () {
-    if (home_now.user_f.score > home_now.user_s.score) {
+    if (parseInt(home_now.user_f.score) > parseInt(home_now.user_s.score)) {
       return new Promise((resolve, reject) => {
         Home.update({_id: home._id}, {$set: {'is_game': false, 'username_win': 'f'}}, (err, doc) => {
           if (err) {
@@ -62,7 +104,7 @@ router.post('/mate/upSelfLogs', async (ctx, next) => {
           resolve(doc)
         })
       })
-    } else if (home_now.user_f.score < home_now.user_s.score) {
+    } else if (parseInt(home_now.user_f.score) < parseInt(home_now.user_s.score)) {
       return new Promise((resolve, reject) => {
         Home.update({_id: home._id}, {$set: {'is_game': false, 'username_win': 's'}}, (err, doc) => {
           if (err) {
@@ -139,6 +181,7 @@ router.post('/mate/upSelfLogs', async (ctx, next) => {
     }
   })
   if (otherScore !== '') {
+    console.log('home_now')
     console.log(home_now)
     await upHomeWin().then(res => {
       console.log('upHomeWin')

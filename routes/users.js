@@ -40,7 +40,7 @@ router.post('/register', async (ctx, next) => {
     }
   } else {
     await new Promise((resolve, reject) => {
-      User.create({username, password}, (err, doc) => {
+      User.create({username: username, password: password, nickname: '游客' + username}, (err, doc) => {
         if(err){
           return reject(err)
         }
