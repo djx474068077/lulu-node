@@ -9,6 +9,51 @@ const util = require('utility')
 
 router.prefix('/game')
 
+// 获取每个人每个游戏的最高分
+router.get('/getmaxscore', async (ctx, next) => {
+  let users = []
+  let gameScore = []
+  let getGameScore = function () {
+    return new Promise((resolve, reject) => {
+      GameScore.find((err, doc) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(doc)
+      })
+    })
+  }
+  let getUsers = function () {
+    return new Promise((resolve, reject) => {
+      User.find((err, doc) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(doc)
+      })
+    })
+  }
+  await getGameScore().then(res => {
+    gameScore = res
+  })
+  await getUsers().then(res => {
+    users = res
+  })
+  if (users && gameScore) {
+    return ctx.body = {
+      status: 10000,
+      msg: '获取成功',
+      data: { users: users, gameScore: gameScore }
+    }
+  } else {
+    return ctx.body = {
+      status: 10001,
+      msg: '数据获取失败'
+    }
+  }
+})
+
+
 // 对战记录
 router.get('/selfLogs', async (ctx, next) => {
   let username = ctx.query.username
