@@ -2,9 +2,7 @@ const router = require('koa-router')()
 
 router.get('/', async (ctx, next) => {
   // render 进入views里面的页面
-  await ctx.render('index', {
-    title: 'Hello Koa 2!'
-  })
+  ctx.body = '测试接口访问成功'
 })
 
 router.get('/string', async (ctx, next) => {

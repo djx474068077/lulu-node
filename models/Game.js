@@ -17,6 +17,8 @@ var GameSchema = new Schema({
   min_img: {type: String, default: ''},                         // 缩略图
   intro_img: {type: String, default: ''},                       // 介绍图（介绍玩法时的图）
   role: {type: String, default: ''},                            // 规则介绍
+  time_all: {type: Number, default: 30},                        // 游戏总时间
+  score_step: {type: Number, default: 20},                      // 游戏每步分数
   meta: {
     createAt: {
       type: Date,

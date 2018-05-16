@@ -12,6 +12,7 @@ router.prefix('/game')
 // 获取每个人每个游戏的最高分
 router.get('/getmaxscore', async (ctx, next) => {
   let users = []
+  let games = []
   let gameScore = []
   let getGameScore = function () {
     return new Promise((resolve, reject) => {
@@ -33,17 +34,30 @@ router.get('/getmaxscore', async (ctx, next) => {
       })
     })
   }
+  let getGames = function () {
+    return new Promise((resolve, reject) => {
+      Game.find((err, doc) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(doc)
+      })
+    })
+  }
   await getGameScore().then(res => {
     gameScore = res
   })
   await getUsers().then(res => {
     users = res
   })
+  await getGames().then(res => {
+    games = res
+  })
   if (users && gameScore) {
     return ctx.body = {
       status: 10000,
       msg: '获取成功',
-      data: { users: users, gameScore: gameScore }
+      data: { users: users, gameScore: gameScore, games: games }
     }
   } else {
     return ctx.body = {
@@ -105,6 +119,10 @@ router.post('/mate/upSelfLogs', async (ctx, next) => {
   } else {
     selfIsFirst = false
   }
+  console.log('log................')
+  console.log(log)
+  let logs = JSON.parse(log)
+  console.log(logs)
   let home_now = {}
   let maxScore = ''
   let otherScore = ''
@@ -121,7 +139,7 @@ router.post('/mate/upSelfLogs', async (ctx, next) => {
   let upSelfLogs = function () {
     if (selfIsFirst) {
       return new Promise((resolve, reject) => {
-        Home.update({_id: home._id}, {$set: {'user_f.score': score, 'user_f.log': log}}, (err, doc) => {
+        Home.update({_id: home._id}, {$set: {'user_f.score': score, 'user_f.log': logs}}, (err, doc) => {
           if (err) {
             reject(err)
           }
@@ -130,7 +148,7 @@ router.post('/mate/upSelfLogs', async (ctx, next) => {
       })
     } else {
       return new Promise((resolve, reject) => {
-        Home.update({_id: home._id}, {$set: {'user_s.score': score, 'user_s.log': log}}, (err, doc) => {
+        Home.update({_id: home._id}, {$set: {'user_s.score': score, 'user_s.log': logs}}, (err, doc) => {
           if (err) {
             reject(err)
           }
@@ -505,6 +523,10 @@ router.post('/practice/upSelfLogs', async (ctx, next) => {
   let { game_id, home_id, username, log, score } = ctx.request.body
   let maxScore = ''
   let otherScore = ''
+  console.log('log................')
+  console.log(log)
+  let logs = JSON.parse(log)
+  console.log(logs)
   let findOtherScore = function () {
     return new Promise((resolve, reject) => {
       Home.findOne({_id: home_id}, (err, doc) => {
@@ -518,7 +540,7 @@ router.post('/practice/upSelfLogs', async (ctx, next) => {
   let upHomeLogs = function () {
     if (score > otherScore) {
       return new Promise((resolve, reject) => {
-        Home.update({_id: home_id}, {$set: {'user_f.score': score, 'user_f.log': log, 'is_game': false, 'username_win': 'f'}}, (err, doc) => {
+        Home.update({_id: home_id}, {$set: {'user_f.score': score, 'user_f.log': logs, 'is_game': false, 'username_win': 'f'}}, (err, doc) => {
           if (err) {
             reject(err)
           }
@@ -527,7 +549,7 @@ router.post('/practice/upSelfLogs', async (ctx, next) => {
       })
     } else if (score < otherScore) {
       return new Promise((resolve, reject) => {
-        Home.update({_id: home_id}, {$set: {'user_f.score': score, 'user_f.log': log, 'is_game': false, 'username_win': 's'}}, (err, doc) => {
+        Home.update({_id: home_id}, {$set: {'user_f.score': score, 'user_f.log': logs, 'is_game': false, 'username_win': 's'}}, (err, doc) => {
           if (err) {
             reject(err)
           }
@@ -536,7 +558,7 @@ router.post('/practice/upSelfLogs', async (ctx, next) => {
       })
     } else {
       return new Promise((resolve, reject) => {
-        Home.update({_id: home_id}, {$set: {'user_f.score': score, 'user_f.log': log, 'is_game': false, 'username_win': 'n'}}, (err, doc) => {
+        Home.update({_id: home_id}, {$set: {'user_f.score': score, 'user_f.log': logs, 'is_game': false, 'username_win': 'n'}}, (err, doc) => {
           if (err) {
             reject(err)
           }
