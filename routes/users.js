@@ -8,25 +8,14 @@ router.prefix('/users')
 
 // 注册  /users/register
 router.post('/register', async (ctx, next) => {
-  // console.log(ctx.request.body)
   let username = ctx.request.body.username
   let password = util.md5(ctx.request.body.password)
   let hasUser = await User.findOne({username: username}, (err, doc) => {
     // console.log(err);
     if (err) {
-      // return ctx.response.body = {
-      //   status: '10100',
-      //   msg: '数据库连接失败'
-      // }
       return 10100
     };
     return doc
-    // if (doc) {
-    //   return ctx.response.body = {
-    //     status: '10010',
-    //     msg: '用户已被注册'
-    //   }
-    // }
   })
   if (hasUser === 10100) {
     ctx.response.body = {
@@ -59,7 +48,6 @@ router.post('/register', async (ctx, next) => {
       }
     })
   }
-  // console.log('find 最底下')
 })
 
 // 登陆 /users/login
@@ -91,23 +79,13 @@ router.post('/login', async (ctx, next) => {
 // 修改个人信息 /users/changeSelf
 router.post('/changeSelf', async (ctx, next) => {
   let { username, nickname, avatar, sex, birthday, province, city, county, describe } = ctx.request.body
-  // let password = util.md5(ctx.request.body.password)
-  // console.log(nickname)
   await User.update({username}, {$set: {nickname, avatar, sex, birthday, province,city, county, describe}}, (err, doc) => {
-    // console.log(err);
     if (err) {
       return ctx.body = {
         status: 10100,
         msg: '数据库连接失败'
       }
     };
-    // if (!doc) {
-    //   return ctx.body = {
-    //     status: 10001,
-    //     msg: '用户不存在或密码输入错误'
-    //   }
-    // }
-    // console.log(doc)
     if (doc.ok === 1) {
       return ctx.body = {
         status: 10000,
@@ -124,17 +102,14 @@ router.post('/changeSelf', async (ctx, next) => {
 
 // 获取个人信息 /users/self
 router.get('/self', async (ctx, next) => {
-  // console.log(ctx.query.username)
   let username = ctx.query.username
   await User.findOne({username}, (err, doc) => {
-    // console.log(err);
     if (err) {
       return ctx.body = {
         status: 10100,
         msg: '数据库连接失败'
       }
     };
-    // console.log(doc)
     if (!doc) {
       return ctx.body = {
         status: 10001,

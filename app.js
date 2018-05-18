@@ -1,14 +1,17 @@
+// 引用koa框架
 const Koa = require('koa')
 const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
+// 用户处理前端传值的数据处理
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-// const wechat = require('wechat')
+// 引用微信的权限验证的api
 const API = require('wechat-api')
+// 引用koa2-cors快速处理跨域问题
 const cors = require('koa2-cors')
-
+// 引用各个路由
 const index = require('./routes/index')
 const users = require('./routes/users')
 const game = require('./routes/game')
