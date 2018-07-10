@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="120.77.176.14">
+    <serverData>
+      <paths name="120.77.176.14">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/wwwroot/wawaapi.dongff.xyz" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
